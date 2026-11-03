@@ -84,6 +84,7 @@ Both ways read the current folder and open on http://127.0.0.1:4400.
 |---|---|
 | Read another folder | `spdd-dashboard ../your-repo` |
 | Another port | `PORT=4500 spdd-dashboard` |
+| Listen on every interface, not only this machine | `HOST=0.0.0.0 spdd-dashboard` |
 | Print what it finds, without starting the server | `spdd-dashboard --check` |
 
 With `npx`, put the same options after the package name:
@@ -99,6 +100,19 @@ Features: 3
   DEMO-102                 Canvas written           Story | Analysis | REASONS Canvas | ·
   DEMO-103                 Analysed                 Story | Analysis | · | ·
 ```
+
+### In Docker
+
+The server listens on `127.0.0.1` by default, which inside a container is the container itself.
+Set `HOST=0.0.0.0` and publish the port. From your repository's folder:
+
+```bash
+docker run --rm -it -p 4400:4400 -e HOST=0.0.0.0 -v "$PWD":/repo:ro -w /repo node:22 npx -y github:janesenaj42/spdd-dashboard
+```
+
+Then open http://localhost:4400 on your machine. `-v "$PWD":/repo:ro` mounts your repository
+read-only; the dashboard writes nothing. Anyone who can reach the published port can read the
+documents, so publish it only on a trusted network.
 
 ## How documents become features
 
