@@ -42,27 +42,26 @@ Needs Node.js 22 or later. Pick one way:
 
 | Way | Use it for | What it does |
 |---|---|---|
-| `npx` | Trying it once | Downloads this repository into npm's cache (`~/.npm/_npx/`), installs its dependencies there, and runs it. Nothing is added to your repository or your PATH. |
+| `npx` | Trying it once | Downloads the package into npm's cache (`~/.npm/_npx/`) and runs it. Nothing is added to your repository or your PATH. |
 | `npm install -g` | Using it often | Installs a `spdd-dashboard` command on your PATH, like any global npm tool. |
 
-Both get the code from this GitHub repository; the package is not on the npm registry.
+Both download `spdd-dashboard.tgz` from this repository's
+[latest release](https://github.com/janesenaj42/spdd-dashboard/releases/latest). The package is not on the npm registry.
 
 ### Try it once with npx
 
 In your repository's folder:
 
 ```bash
-npx github:janesenaj42/spdd-dashboard
+npx https://github.com/janesenaj42/spdd-dashboard/releases/latest/download/spdd-dashboard.tgz
 ```
 
-`github:janesenaj42/spdd-dashboard` tells npm to fetch the package from this repository instead
-of the npm registry. npx asks `Ok to proceed? (y)` before installing: answer `y`. Every run
-fetches the repository again, so it always runs the latest version and needs network access.
+npx asks `Ok to proceed? (y)` before installing: answer `y`.
 
 ### Install it to keep
 
 ```bash
-npm install -g github:janesenaj42/spdd-dashboard
+npm install -g https://github.com/janesenaj42/spdd-dashboard/releases/latest/download/spdd-dashboard.tgz
 ```
 
 Then, in your repository's folder:
@@ -73,7 +72,7 @@ spdd-dashboard
 
 | Task | Command |
 |---|---|
-| Update to the latest version | `npm install -g github:janesenaj42/spdd-dashboard` again |
+| Update to the latest release | The same `npm install -g` command again |
 | Remove it | `npm uninstall -g spdd-dashboard` |
 
 ### Options
@@ -88,8 +87,8 @@ connections from other machines too: anyone who can reach the port can read the 
 | Accept connections from this machine only | `HOST=127.0.0.1 spdd-dashboard` |
 | Print what it finds, without starting the server | `spdd-dashboard --check` |
 
-With `npx`, put the same options after the package name:
-`npx github:janesenaj42/spdd-dashboard ../your-repo --check`.
+With `npx`, put the same options after the link:
+`npx https://github.com/janesenaj42/spdd-dashboard/releases/latest/download/spdd-dashboard.tgz ../your-repo --check`.
 
 Example `--check` output:
 
@@ -135,6 +134,15 @@ A feature is every document whose file name carries the same slug. open-spdd nam
 - Dates in the History come from `git log`. Outside a git repository every document shows
   "no date".
 - Bookmarks (☆) are kept in the browser's local storage for the port in use.
+
+## Releasing a new version
+
+1. Raise `"version"` in `package.json` and push to `main`.
+2. Push a matching tag: `git tag v0.2.0`, then `git push origin v0.2.0`.
+
+The `Release` workflow (`.github/workflows/release.yml`) runs the tests, packs the package and
+creates the release with `spdd-dashboard.tgz` attached. The `latest/download` link above then
+serves the new version.
 
 ## Tests
 
