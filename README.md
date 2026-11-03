@@ -38,30 +38,58 @@ Open http://127.0.0.1:4400. Then:
 
 ## Run it on your repository
 
-Needs Node.js 22 or later. In your repository's folder, run it straight from GitHub:
+Needs Node.js 22 or later. Pick one way:
+
+| Way | Use it for | What it does |
+|---|---|---|
+| `npx` | Trying it once | Downloads this repository into npm's cache (`~/.npm/_npx/`), installs its dependencies there, and runs it. Nothing is added to your repository or your PATH. |
+| `npm install -g` | Using it often | Installs a `spdd-dashboard` command on your PATH, like any global npm tool. |
+
+Both get the code from this GitHub repository; the package is not on the npm registry.
+
+### Try it once with npx
+
+In your repository's folder:
 
 ```bash
 npx github:janesenaj42/spdd-dashboard
 ```
 
-Or install the `spdd-dashboard` command once:
+`github:janesenaj42/spdd-dashboard` tells npm to fetch the package from this repository instead
+of the npm registry. npx asks `Ok to proceed? (y)` before installing: answer `y`. Every run
+fetches the repository again, so it always runs the latest version and needs network access.
+
+### Install it to keep
 
 ```bash
 npm install -g github:janesenaj42/spdd-dashboard
 ```
 
+Then, in your repository's folder:
+
 ```bash
 spdd-dashboard
 ```
 
-Both read the current folder. Give a path to read another one: `spdd-dashboard ../your-repo`.
-From a clone of this repository, `npm start -- ../your-repo` does the same.
+| Task | Command |
+|---|---|
+| Update to the latest version | `npm install -g github:janesenaj42/spdd-dashboard` again |
+| Remove it | `npm uninstall -g spdd-dashboard` |
 
-To list what it finds without starting the server:
+### Options
 
-```bash
-spdd-dashboard --check
-```
+Both ways read the current folder and open on http://127.0.0.1:4400.
+
+| Option | Example |
+|---|---|
+| Read another folder | `spdd-dashboard ../your-repo` |
+| Another port | `PORT=4500 spdd-dashboard` |
+| Print what it finds, without starting the server | `spdd-dashboard --check` |
+
+With `npx`, put the same options after the package name:
+`npx github:janesenaj42/spdd-dashboard ../your-repo --check`.
+
+Example `--check` output:
 
 ```text
 Folder: /home/you/your-repo
@@ -71,8 +99,6 @@ Features: 3
   DEMO-102                 Canvas written           Story | Analysis | REASONS Canvas | ·
   DEMO-103                 Analysed                 Story | Analysis | · | ·
 ```
-
-Set `PORT` to use another port.
 
 ## How documents become features
 
