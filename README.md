@@ -38,14 +38,29 @@ Open http://127.0.0.1:4400. Then:
 
 ## Run it on your repository
 
+Needs Node.js 22 or later. In your repository's folder, run it straight from GitHub:
+
 ```bash
-npm start -- ../your-repo
+npx github:janesenaj42/spdd-dashboard
 ```
+
+Or install the `spdd-dashboard` command once:
+
+```bash
+npm install -g github:janesenaj42/spdd-dashboard
+```
+
+```bash
+spdd-dashboard
+```
+
+Both read the current folder. Give a path to read another one: `spdd-dashboard ../your-repo`.
+From a clone of this repository, `npm start -- ../your-repo` does the same.
 
 To list what it finds without starting the server:
 
 ```bash
-npm start -- ../your-repo --check
+spdd-dashboard --check
 ```
 
 ```text
