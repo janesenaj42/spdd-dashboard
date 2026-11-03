@@ -1,0 +1,17 @@
+{
+  "name": "spdd-dashboard",
+  "version": "0.1.0",
+  "description": "Local, read-only dashboard for a repository's SPDD (Structured-Prompt-Driven Development) documents.",
+  "type": "module",
+  "bin": { "spdd-dashboard": "bin/spdd-dashboard.mjs" },
+  "files": ["bin", "src", "public"],
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node bin/spdd-dashboard.mjs",
+    "check": "node bin/spdd-dashboard.mjs --check",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "mermaid": "12.1.0"
+  }
+}

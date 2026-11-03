@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SPDD Dashboard</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="top">
+    <button class="iconbtn" id="toggleLib" aria-label="Show or hide the library">☰</button>
+    <a class="brand" href="#/">SPDD Dashboard <span id="repo" class="muted"></span></a>
+    <nav>
+      <a href="#/" data-nav="board">Board</a>
+      <a href="#/adr" data-nav="adr">Decisions</a>
+      <a href="#/load" data-nav="load">Reading load</a>
+    </nav>
+    <form id="searchForm" role="search"><input id="q" type="search" placeholder="Search every document  ( / )" autocomplete="off"></form>
+    <button class="iconbtn star" id="star" type="button">☆</button>
+    <button class="iconbtn" id="reload" title="Re-read the folder">↻</button>
+  </header>
+  <div class="shell">
+    <aside id="lib" class="lib"></aside>
+    <main id="main"><p class="muted pad">Loading…</p></main>
+  </div>
+  <div id="pop" class="pop" hidden></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
