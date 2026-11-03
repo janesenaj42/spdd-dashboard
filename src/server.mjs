@@ -4,10 +4,10 @@
  * analysis to spdd/analysis/, /spdd-reasons-canvas a REASONS Canvas to spdd/prompt/, and
  * /spdd-code-review a review to spdd/review/, all for a user story in requirements/.
  *
- *   spdd-dashboard [folder]            http://127.0.0.1:4400, reading folder (default: the current one)
+ *   spdd-dashboard [folder]            http://localhost:4400, reading folder (default: the current one)
  *   spdd-dashboard [folder] --check    print the features and unmatched documents, then exit
  *   PORT=4500 spdd-dashboard           another port
- *   HOST=0.0.0.0 spdd-dashboard        listen on every interface, e.g. inside a Docker container
+ *   HOST=127.0.0.1 spdd-dashboard      accept connections from this machine only
  *
  * A feature is every document whose file name carries the same slug (src/names.mjs).
  * Reads the folder on every request, so it always shows the working tree. Only files in the
@@ -28,8 +28,8 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(process.argv.slice(2).find((a) => !a.startsWith('--')) ?? '.');
 const PUBLIC = path.join(HERE, '..', 'public');
 const PORT = Number(process.env.PORT ?? 4400);
-/** Only this machine by default. 0.0.0.0 lets Docker's port mapping reach it. */
-const HOST = process.env.HOST ?? '127.0.0.1';
+/** Every interface by default, so other machines and container port mappings can reach it. */
+const HOST = process.env.HOST ?? '0.0.0.0';
 const MERMAID = createRequire(import.meta.url).resolve('mermaid/dist/mermaid.min.js');
 const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', 'target', '.gradle', 'coverage', 'test-results', 'playwright-report']);
 
@@ -328,4 +328,4 @@ if (process.argv.includes('--check')) {
   process.exit(0);
 }
 if (!fs.existsSync(path.join(ROOT, 'spdd'))) console.warn(`No spdd/ folder in ${ROOT}: the board will be empty.`);
-server.listen(PORT, HOST, () => console.log(`SPDD Dashboard: http://${HOST}:${PORT}  reading ${ROOT}  (Ctrl+C to stop)`));
+server.listen(PORT, HOST, () => console.log(`SPDD Dashboard: http://localhost:${PORT}  (listening on ${HOST})  reading ${ROOT}  (Ctrl+C to stop)`));
