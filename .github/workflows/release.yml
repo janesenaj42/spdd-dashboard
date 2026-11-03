@@ -1,0 +1,29 @@
+# Push a tag v<version> matching package.json to build the package and attach it to a GitHub
+# Release as spdd-dashboard.tgz (the stable name behind the README's .../releases/latest/download/ link).
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Tag matches package.json version
+        run: test "${GITHUB_REF_NAME}" = "v$(node -p 'require("./package.json").version')"
+      - run: npm ci
+      - run: npm test
+      - name: Pack
+        run: mv "$(npm pack --silent)" spdd-dashboard.tgz
+      - name: Create the release
+        run: gh release create "$GITHUB_REF_NAME" spdd-dashboard.tgz --title "$GITHUB_REF_NAME" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
